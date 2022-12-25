@@ -12,6 +12,7 @@ import {
 import { CatsService } from './cats.service';
 import { HttpExceptionFilter } from 'src/http-exception.filter';
 import { UseFilters } from '@nestjs/common/decorators/core/exception-filters.decorator';
+import { PositiveIntPipe } from 'src/common/pipes/positiveInt.pipe';
 
 @Controller('cats')
 @UseFilters(HttpExceptionFilter) // 각각의 메소드에 필터 데코레이터를 만들지않고 전역으로 사용해서 throw가 발생하면 필터가 실행된다.
@@ -27,9 +28,10 @@ export class CatsController {
 
   // cats/:id
   @Get(':id')
-  getOneCat(@Param('id', ParseIntPipe) id: number) {
-    console.log(id);
-    console.log(typeof id);
+  // ms문서의 taskA가 ParseIntPipe, taskB가 PositiveIntPipe
+  getOneCat(@Param('id', ParseIntPipe, PositiveIntPipe) param: number) {
+    console.log(param);
+    console.log(typeof param);
     return 'one cat';
   }
 
