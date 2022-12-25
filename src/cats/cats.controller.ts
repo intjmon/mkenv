@@ -17,7 +17,7 @@ export class CatsController {
 
   // cats/
   @Get()
-  @UseFilters(HttpExceptionFilter)
+  @UseFilters(HttpExceptionFilter) // 각각의 메소드에 필터를 적용할 수 있다.
   getAllCat() {
     throw new HttpException('API is broken', 401);
     return 'all cat';
