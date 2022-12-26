@@ -22,40 +22,28 @@ import { SuccessInterceptor } from 'src/common/interceptors/success.intercepteor
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
-  // cats/
   @Get()
-  getAllCat() {
-    console.log('HELLO CONTROLLER');
-    //    throw new HttpException('API is broken', 401);
-    return { cats: 'all cat' };
-  }
-
-  // cats/:id
-  @Get(':id')
-  // ms문서의 taskA가 ParseIntPipe, taskB가 PositiveIntPipe
-  getOneCat(@Param('id', ParseIntPipe, PositiveIntPipe) param: number) {
-    console.log(param);
-    console.log(typeof param);
-    return 'one cat';
+  getCurrentCat() {
+    return 'current cat';
   }
 
   @Post()
-  createCat() {
-    return 'create cat';
+  async signUp() {
+    return 'signup';
   }
 
-  @Put(':id')
-  updateCat() {
-    return 'update cat';
+  @Post('login')
+  logIn() {
+    return 'login';
   }
 
-  @Patch(':id')
-  updatePartialCat() {
-    return 'update partial cat';
+  @Post('logout')
+  logOut() {
+    return 'logout';
   }
 
-  @Delete(':id')
-  DeleteCat() {
-    return 'delete cat';
+  @Post('upload/cats')
+  uploadCatImg() {
+    return 'uploadImg';
   }
 }
