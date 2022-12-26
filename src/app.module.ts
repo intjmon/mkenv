@@ -4,9 +4,17 @@ import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [CatsModule, MongooseModule.forRoot(process.env.MONGO_URI)],
+  imports: [
+    ConfigModule.forRoot(),
+    CatsModule,
+    MongooseModule.forRoot(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService], // 의전성을 주입하기 위한 프로바이더
 })
