@@ -16,7 +16,6 @@ export class AppController {
   @Get('') // localhost:3000
   getHello(): string {
     // 주입받은 appService의 getHello() 메소드를 반환
-    console.log(this.catService.hiCatServiceProduct());
     return this.appService.getHello();
   }
 }
