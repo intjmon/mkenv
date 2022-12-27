@@ -4,14 +4,15 @@ import { Cat } from './cats.schema';
 import { CatRequestDto } from './dto/cats.request.dto';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { CatsRepository } from './cats.repository';
 
 @Injectable() // Injectable은 프로바이더라는 의미
 export class CatsService {
-  constructor(@InjectModel(Cat.name) private readonly catModel: Model<Cat>) {}
+  constructor(private readonly catsRepository: CatsRepository) {}
   async signUp(body: CatRequestDto) {
     const { email, name, password } = body;
-    const isCatExist = await this.catModel.exists({ email });
-    const isNameExist = await this.catModel.exists({ name });
+    const isCatExist = await this.catsRepository.existsByEmail(email);
+    const isNameExist = await this.catsRepository.existsByName(name);
 
     if (isCatExist) {
       throw new UnauthorizedException('입력한 email 이미 존재합니다');
@@ -23,7 +24,7 @@ export class CatsService {
     const hashedPassword = await bcrypt.hash(password, 10);
     console.log(hashedPassword);
 
-    const cat = await this.catModel.create({
+    const cat = await this.catsRepository.create({
       email,
       name,
       password: hashedPassword,
