@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { Document, SchemaOptions } from 'mongoose';
 
@@ -11,16 +12,31 @@ const options: SchemaOptions = {
 // email의 경우는 @isEmail()을 사용한다.
 @Schema(options)
 export class Cat extends Document {
+  @ApiProperty({
+    example: 'jw@gmail.com',
+    description: 'email',
+    required: true,
+  })
   @Prop({ required: true, unique: true })
   @IsEmail()
   @IsNotEmpty()
   email: string;
 
+  @ApiProperty({
+    example: 'jw',
+    description: 'name',
+    required: true,
+  })
   @Prop({ required: true, unique: true })
   @IsString()
   @IsNotEmpty()
   name: string;
 
+  @ApiProperty({
+    example: 'PWD1234',
+    description: 'password',
+    required: true,
+  })
   @Prop({ required: true })
   @IsString()
   @IsNotEmpty()
