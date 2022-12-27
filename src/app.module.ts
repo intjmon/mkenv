@@ -6,6 +6,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ConfigModule } from '@nestjs/config';
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService], // 의전성을 주입하기 위한 프로바이더
