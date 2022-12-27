@@ -28,7 +28,13 @@ export class CatsRepository {
     return result ? true : false;
   }
 
-  async create(cat: CatRequestDto): Promise<any> {
-    return await this.catModel.exists({ cat });
+  async create(cat: CatRequestDto): Promise<Cat> {
+    console.log('cat:', cat);
+    return await this.catModel.create(cat);
+  }
+
+  async findCatByEmail(email: string): Promise<any> {
+    const cat = await this.catModel.findOne({ email });
+    return cat;
   }
 }
