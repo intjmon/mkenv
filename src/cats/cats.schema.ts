@@ -16,7 +16,7 @@ export class Cat extends Document {
   @IsNotEmpty()
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -29,6 +29,18 @@ export class Cat extends Document {
   @Prop()
   @IsString()
   imgUrl: string;
+
+  readonly readOnlyData: { id: string; email: string; name: string };
 }
 
 export const CatSchema = SchemaFactory.createForClass(Cat);
+
+// 스카아메 virtual은 가상으로 사용자에게 보여줄 값만 설정함
+// 여기서는 불필요한 password, create_date, update_date를 리턴값에서 제외
+CatSchema.virtual('readOnlyData').get(function (this: Cat) {
+  return {
+    id: this.id,
+    email: this.email,
+    name: this.name,
+  };
+});
