@@ -17,6 +17,7 @@ import { UseFilters } from '@nestjs/common/decorators/core/exception-filters.dec
 import { PositiveIntPipe } from 'src/common/pipes/positiveInt.pipe';
 import { SuccessInterceptor } from 'src/common/interceptors/success.intercepteor';
 import { CatRequestDto } from './dto/cats.request.dto';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
@@ -24,26 +25,31 @@ import { CatRequestDto } from './dto/cats.request.dto';
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
+  @ApiOperation({ summary: '현재 고양이 가져오기' })
   @Get()
   getCurrentCat() {
     return 'current cat';
   }
 
+  @ApiOperation({ summary: '회원가입' })
   @Post()
   async signUp(@Body() body: CatRequestDto) {
     return await this.catsService.signUp(body);
   }
 
+  @ApiOperation({ summary: '로그인' })
   @Post('login')
   logIn() {
     return 'login';
   }
 
+  @ApiOperation({ summary: '로그아웃' })
   @Post('logout')
   logOut() {
     return 'logout';
   }
 
+  @ApiOperation({ summary: '고양이 이미지 업로드' })
   @Post('upload/cats')
   uploadCatImg() {
     return 'uploadImg';
