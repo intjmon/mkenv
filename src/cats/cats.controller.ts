@@ -17,7 +17,8 @@ import { UseFilters } from '@nestjs/common/decorators/core/exception-filters.dec
 import { PositiveIntPipe } from 'src/common/pipes/positiveInt.pipe';
 import { SuccessInterceptor } from 'src/common/interceptors/success.intercepteor';
 import { CatRequestDto } from './dto/cats.request.dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ReadOnlyCatDto } from './dto/cat.dto';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
@@ -31,6 +32,15 @@ export class CatsController {
     return 'current cat';
   }
 
+  @ApiResponse({
+    status: 500,
+    description: 'Server Error...',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'OK',
+    type: ReadOnlyCatDto,
+  })
   @ApiOperation({ summary: '회원가입' })
   @Post()
   async signUp(@Body() body: CatRequestDto) {
