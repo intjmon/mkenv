@@ -5,7 +5,7 @@ import { Cat } from './cats.schema';
 import { HttpException } from '@nestjs/common';
 
 @Injectable()
-export class UserRepository {
+export class CatsRepository {
   constructor(@InjectModel(Cat.name) private readonly catModel: Model<Cat>) {}
 
   async existsByEmail(email: string): Promise<boolean> {
