@@ -19,12 +19,18 @@ import { SuccessInterceptor } from 'src/common/interceptors/success.intercepteor
 import { CatRequestDto } from './dto/cats.request.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ReadOnlyCatDto } from './dto/cat.dto';
+import { AuthService } from 'src/auth/auth.service';
+import { LoginRequestDto } from 'src/auth/dto/login.request.dto';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
 @UseFilters(HttpExceptionFilter) // 각각의 메소드에 필터 데코레이터를 만들지않고 전역으로 사용해서 throw가 발생하면 필터가 실행된다.
 export class CatsController {
-  constructor(private readonly catsService: CatsService) {}
+  constructor(
+    private readonly catsService: CatsService,
+    // auth service를 사용하기위해 Dependency Injection을 해준다.-> cat.module.ts에서 import해워쟈함
+    private readonly authService: AuthService,
+  ) {}
 
   @ApiOperation({ summary: '현재 고양이 가져오기' })
   @Get()
@@ -47,10 +53,12 @@ export class CatsController {
     return await this.catsService.signUp(body);
   }
 
+  // auth.service에서 구현한 인증 서비스를 Dependency Injection을 통해 주입받아 사용함
+  // auth 모듈을 사용해 로그인함
   @ApiOperation({ summary: '로그인' })
   @Post('login')
-  logIn() {
-    return 'login';
+  logIn(@Body() data: LoginRequestDto) {
+    return this.authService.jwtLogin(data);
   }
 
   @ApiOperation({ summary: '로그아웃' })
