@@ -9,6 +9,13 @@ import { CatRequestDto } from './dto/cats.request.dto';
 export class CatsRepository {
   constructor(@InjectModel(Cat.name) private readonly catModel: Model<Cat>) {}
 
+  async findCatByIdWithoutPassword(catId: string): Promise<Cat | null> {
+    //const cat = await this.catModel.findById(catId).select('email name'); // email과 name가져옴
+    //const cat = await this.catModel.findById(catId).select('email name'); // -email 빼고 가져빼
+    const cat = await this.catModel.findById(catId).select('-password'); // 보안이유로 password는 안가져옴
+    return cat;
+  }
+
   async existsByEmail(email: string): Promise<boolean> {
     // 에러처리는 리포지터리에서 해도되지만  스키마 코드에서 이미 타입을 정의해놨기 때문의
     // 그쪽에서 invalidation error를 던지도록 해 놨다.->여기서 안해도 됨
