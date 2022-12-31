@@ -10,7 +10,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: 'secret', // 인증할 때 사용하는 키
+      secretOrKey: process.env.JWT_SECRET, // 인증할 때 사용하는 키
     });
   }
   // FE에서 받은 토큰을 검증하는 함수
