@@ -4,9 +4,11 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { CatsModule } from 'src/cats/cats.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot();
     // 여기서는 세션 쿠키를 사용하지 않으므로 session을 false로 함
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     JwtModule.register({
