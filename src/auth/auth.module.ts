@@ -8,7 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot();
+    ConfigModule.forRoot(),
     // 여기서는 세션 쿠키를 사용하지 않으므로 session을 false로 함
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     JwtModule.register({
