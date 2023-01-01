@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
       useUnifiedTopology: true,
     }),
     AuthModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService], // 의전성을 주입하기 위한 프로바이더
