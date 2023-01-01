@@ -25,6 +25,8 @@ import { AuthService } from 'src/auth/auth.service';
 import { LoginRequestDto } from 'src/auth/dto/login.request.dto';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { CurrentUser } from 'src/common/decorators/user.decorators';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { UploadedFile, UploadedFiles } from '@nestjs/common/decorators';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
@@ -73,8 +75,10 @@ export class CatsController {
   }
 
   @ApiOperation({ summary: '고양이 이미지 업로드' })
+  @UseInterceptors(FileInterceptor('image')) // 클라form에서 key를 image라고 설정함
   @Post('upload')
-  uploadCatImg() {
+  uploadCatImg(@UploadedFiles() files: Array<Express.Multer.File>) {
+    console.log(files);
     return 'uploadImg';
   }
 }
