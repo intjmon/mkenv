@@ -9,7 +9,7 @@ import { CatRequestDto } from './dto/cats.request.dto';
 export class CatsRepository {
   constructor(@InjectModel(Cat.name) private readonly catModel: Model<Cat>) {}
 
-  async finaAll() {
+  async findAll() {
     return await this.catModel.find();
   }
 
