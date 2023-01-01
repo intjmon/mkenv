@@ -2,12 +2,6 @@ import {
   Controller,
   Get,
   Post,
-  Put,
-  Delete,
-  Patch,
-  HttpException,
-  Param,
-  ParseIntPipe,
   UseInterceptors,
   Body,
   Req,
@@ -25,8 +19,9 @@ import { AuthService } from 'src/auth/auth.service';
 import { LoginRequestDto } from 'src/auth/dto/login.request.dto';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { CurrentUser } from 'src/common/decorators/user.decorators';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { UploadedFile, UploadedFiles } from '@nestjs/common/decorators';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { UploadedFiles } from '@nestjs/common/decorators';
+import { multerOptions } from 'src/common/utils/multer.options';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
@@ -75,7 +70,9 @@ export class CatsController {
   }
 
   @ApiOperation({ summary: '고양이 이미지 업로드' })
-  @UseInterceptors(FileInterceptor('image')) // 클라form에서 key를 image라고 설정함
+  //@UseInterceptors(FilesInterceptor('image'), 10, multerOptions('cats'))) // 클라form에서 key를 image라고 설정함
+  //  @UseInterceptors(FilesInterceptor('image'), 10,) // 클라form에서 key를 image라고 설정함
+  @UseInterceptors(FilesInterceptor('image', 10, multerOptions('cats')))
   @Post('upload')
   uploadCatImg(@UploadedFiles() files: Array<Express.Multer.File>) {
     console.log(files);
