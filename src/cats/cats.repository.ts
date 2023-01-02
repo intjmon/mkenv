@@ -4,13 +4,20 @@ import { Model, Types } from 'mongoose';
 import { Cat } from './cats.schema';
 import { HttpException } from '@nestjs/common';
 import { CatRequestDto } from './dto/cats.request.dto';
+import { CommentsSchema } from 'src/comments/comments.schema';
+import * as mongoose from 'mongoose';
 
 @Injectable()
 export class CatsRepository {
   constructor(@InjectModel(Cat.name) private readonly catModel: Model<Cat>) {}
 
   async findAll() {
-    return await this.catModel.find();
+    //    return await this.catModel.find();
+    const CommentsModel = mongoose.model('comments', CommentsSchema);
+    const result = await this.catModel
+      .find()
+      .populate('comments', CommentsModel);
+    return result;
   }
 
   async findByIdAndUpdateImg(id: string, fileName: string) {
